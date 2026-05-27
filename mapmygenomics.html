@@ -1,0 +1,2448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MapMyGenomics · Questions about your genes, answered by people who think about them differently</title>
+<meta name="description" content="A growing library of genetics questions, answered by researchers, clinicians, genetic counsellors, and curious people who have done the reading. Free, ad-free, curated for accuracy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MAPMYGENOMICS.COM · Quora-style community feed
+   Aesthetic: reading room — warm cream paper, editorial serif
+   headlines, content-dense feed, persona avatars, upvote rails.
+   Carries KYG palette (cream / peach / teal) into a third
+   distinct direction from matchyourgenes & mapmygenetic.
+   ============================================================ */
+
+:root{
+  /* Palette — KYG cream system */
+  --c-cream:        #FAF6EF;
+  --c-cream-2:      #F5EDDF;
+  --c-cream-3:      #EFE4CE;
+  --c-peach:        #F8E4CC;
+  --c-peach-2:      #F3D5B2;
+  --c-rust:         #C76842;
+  --c-rust-soft:    #E08868;
+  --c-teal:         #0E4D4B;
+  --c-teal-2:       #15605D;
+  --c-teal-light:   #25B5AB;
+  --c-teal-bright:  #2AC3A2;
+  --c-amber:        #B66B16;
+  --c-rose:         #C73C70;
+  --c-violet:       #6F61E8;
+  --c-forest:       #2F8C5C;
+
+  /* Ink */
+  --ink-1:          #1F1A14;
+  --ink-2:          #2D2A24;
+  --ink-3:          #6B6358;
+  --ink-4:          #948A7C;
+  --ink-line:       rgba(31,26,20,.08);
+  --ink-line-2:     rgba(31,26,20,.14);
+
+  /* Type */
+  --ff:        'Figtree', system-ui, sans-serif;
+  --ff-serif:  'Figtree', system-ui, sans-serif;
+  --ff-mono:   'JetBrains Mono', ui-monospace, monospace;
+
+  /* Radii */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+
+  /* Easings */
+  --e-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --e-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows (warm) */
+  --sh-1: 0 1px 2px rgba(45,32,18,.04), 0 4px 12px rgba(45,32,18,.04);
+  --sh-2: 0 4px 14px rgba(45,32,18,.06), 0 14px 40px rgba(45,32,18,.06);
+  --sh-3: 0 10px 30px rgba(45,32,18,.08), 0 30px 80px rgba(45,32,18,.10);
+
+  /* Layout */
+  --max-w: 1280px;
+  --gutter: clamp(20px, 3.6vw, 44px);
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body{
+  font-family: var(--ff);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-1);
+  background: var(--c-cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+img, svg { display:block; max-width:100%; height:auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; background: none; border: 0; cursor: pointer; color: inherit; }
+ul, ol { list-style: none; }
+::selection { background: var(--c-teal); color: #fff; }
+input { font: inherit; }
+
+/* ===== Atmospheric mesh background ===== */
+body::before{
+  content:"";
+  position: fixed;
+  inset: -10vh -10vw;
+  z-index: -2;
+  background:
+    radial-gradient(40vw 50vh at 14% 18%, rgba(248,228,204,.55) 0%, transparent 60%),
+    radial-gradient(36vw 42vh at 86% 10%,  rgba(243,213,178,.42) 0%, transparent 60%),
+    radial-gradient(50vw 50vh at 78% 70%, rgba(37,181,171,.10) 0%, transparent 65%),
+    radial-gradient(40vw 40vh at 16% 88%, rgba(245,237,223,.55) 0%, transparent 60%),
+    var(--c-cream);
+  animation: meshDrift 30s ease-in-out infinite alternate;
+}
+@keyframes meshDrift{
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(2%,-1.5%,0) scale(1.04); }
+  100% { transform: translate3d(-1.5%,2%,0) scale(1.02); }
+}
+/* Grain */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.15  0 0 0 0 0.10  0 0 0 0.45 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>");
+  opacity: 0.38;
+  mix-blend-mode: multiply;
+}
+
+/* ===== Container ===== */
+.container{
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ===== Common utilities ===== */
+.eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--ff);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--c-teal);
+}
+.eyebrow::before{
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--c-teal), var(--c-teal-light));
+  border-radius: 2px;
+}
+.grad-text{
+  background: linear-gradient(110deg,
+    var(--c-teal) 0%,
+    var(--c-teal-2) 28%,
+    var(--c-teal-light) 50%,
+    var(--c-teal-2) 72%,
+    var(--c-teal) 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradShift 9s ease-in-out infinite;
+}
+@keyframes gradShift{
+  0%,100% { background-position: 0% 50%; }
+  50%     { background-position: 100% 50%; }
+}
+
+/* ===== Reveal on scroll ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .8s var(--e-out), transform .8s var(--e-out);
+  transition-delay: var(--rd, 0s);
+}
+.reveal.is-in { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav{
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250,246,239,.72);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s var(--e-out), background .3s var(--e-out);
+}
+.nav.is-scrolled{
+  background: rgba(250,246,239,.92);
+  border-bottom-color: var(--ink-line);
+}
+.nav__inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 72px;
+}
+.nav__brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -.02em;
+  color: var(--ink-1);
+}
+.nav__mark{
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  background: var(--c-teal);
+  color: var(--c-cream);
+  display: inline-flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.nav__mark::after{
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(37,181,171,.5));
+}
+.nav__mark svg{ width: 22px; height: 22px; position: relative; z-index: 1; }
+.nav__brand-w{ display: flex; flex-direction: column; line-height: 1; gap: 3px; }
+.nav__brand-w small{
+  font-family: var(--ff);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.nav__search{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  max-width: 420px;
+  background: rgba(255,255,255,.7);
+  border: 1.5px solid var(--ink-line);
+  border-radius: 999px;
+  padding: 9px 18px;
+  transition: border-color .3s var(--e-out), background .3s var(--e-out), box-shadow .3s var(--e-out);
+}
+.nav__search:focus-within{
+  background: #fff;
+  border-color: var(--c-teal-light);
+  box-shadow: 0 0 0 4px rgba(37,181,171,.12);
+}
+.nav__search svg{
+  width: 16px; height: 16px;
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+.nav__search input{
+  flex: 1;
+  border: 0;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--ink-1);
+}
+.nav__search input::placeholder{ color: var(--ink-4); }
+.nav__search-key{
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  background: var(--c-cream-2);
+  border: 1px solid var(--ink-line);
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.nav__cta{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-family: var(--ff);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -.005em;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: transform .5s var(--e-out),
+              background .35s var(--e-out),
+              color .35s var(--e-out),
+              border-color .35s var(--e-out),
+              box-shadow .5s var(--e-out);
+  white-space: nowrap;
+}
+.btn .ico{ width: 14px; height: 14px; transition: transform .4s var(--e-out); }
+.btn:hover .ico{ transform: translateX(2px); }
+.btn--primary{
+  background: var(--ink-1);
+  color: var(--c-cream);
+  box-shadow: 0 8px 22px rgba(31,26,20,.16);
+}
+.btn--primary:hover{
+  background: var(--c-teal);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(14,77,75,.28);
+}
+.btn--ghost{
+  background: transparent;
+  color: var(--ink-1);
+  border-color: var(--ink-line-2);
+}
+.btn--ghost:hover{
+  background: var(--ink-1);
+  color: var(--c-cream);
+  border-color: var(--ink-1);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  padding: clamp(56px, 7vw, 96px) 0 clamp(40px, 5vw, 64px);
+  position: relative;
+}
+.hero__inner{
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.hero__eyebrow{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding: 7px 18px 7px 8px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid var(--ink-line);
+  border-radius: 999px;
+  font-family: var(--ff);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  backdrop-filter: blur(8px);
+}
+.hero__eyebrow-pill{
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--c-teal);
+  color: var(--c-cream);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: .14em;
+}
+.hero__eyebrow-dot{
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-teal-bright);
+  box-shadow: 0 0 0 3px rgba(42,195,162,.32);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .4; }
+}
+
+.hero__h{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: clamp(40px, 5.4vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  color: var(--ink-1);
+  margin-bottom: 28px;
+}
+.hero__h em{
+  font-style: italic;
+  font-weight: 500;
+}
+.hero__sub{
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 720px;
+  margin: 0 auto 36px;
+}
+.hero__cta{
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Hero — Trust strip */
+.hero__trust{
+  margin-top: 48px;
+  padding: 18px 24px;
+  background: rgba(255,255,255,.5);
+  border: 1px solid var(--ink-line);
+  border-radius: 999px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  backdrop-filter: blur(10px);
+}
+.hero__trust-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero__trust-item b{
+  font-weight: 700;
+  color: var(--ink-1);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+}
+.hero__trust-sep{
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--ink-line-2);
+  align-self: center;
+}
+
+/* ============================================================
+   TOPIC CHIPS
+   ============================================================ */
+.chips-section{
+  padding: 32px 0 0;
+}
+.chips{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid var(--ink-line);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  letter-spacing: -.005em;
+  cursor: pointer;
+  transition: transform .35s var(--e-out),
+              background .3s var(--e-out),
+              border-color .3s var(--e-out),
+              color .3s var(--e-out);
+  backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+.chip:hover{
+  transform: translateY(-2px);
+  background: #fff;
+  border-color: var(--ink-line-2);
+}
+.chip.is-active{
+  background: var(--ink-1);
+  color: var(--c-cream);
+  border-color: var(--ink-1);
+}
+.chip__dot{
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-accent, var(--c-teal-light));
+}
+
+/* ============================================================
+   FEED LAYOUT — Main column + sidebar
+   ============================================================ */
+.feed{
+  padding: clamp(48px, 6vw, 80px) 0;
+}
+.feed__layout{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 48px;
+  align-items: start;
+}
+.feed__main{ min-width: 0; }
+.feed__aside{
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ===== Section header in feed ===== */
+.feed-head{
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.feed-head__left{ display: flex; flex-direction: column; gap: 14px; }
+.feed-head__title{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: clamp(28px, 2.6vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -.028em;
+  color: var(--ink-1);
+}
+.feed-head__sub{
+  font-size: 14.5px;
+  color: var(--ink-3);
+}
+.feed-head__sort{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid var(--ink-line);
+  font-size: 13px;
+  color: var(--ink-2);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .3s var(--e-out), border-color .3s var(--e-out);
+}
+.feed-head__sort:hover{ background: #fff; border-color: var(--ink-line-2); }
+.feed-head__sort svg{ width: 12px; height: 12px; }
+
+/* ============================================================
+   QUESTION CARDS
+   ============================================================ */
+.q-list{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.q-card{
+  background: rgba(255,255,255,.78);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--ink-line);
+  border-radius: var(--r-lg);
+  padding: clamp(22px, 2.2vw, 32px);
+  transition: transform .4s var(--e-out),
+              box-shadow .4s var(--e-out),
+              border-color .3s var(--e-out),
+              background .3s var(--e-out);
+  position: relative;
+  overflow: hidden;
+}
+.q-card:hover{
+  background: #fff;
+  transform: translateY(-2px);
+  border-color: var(--ink-line-2);
+  box-shadow: var(--sh-2);
+}
+/* Accent strip — left edge, themed per topic */
+.q-card::before{
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--c-accent, var(--c-teal-light));
+  opacity: .85;
+}
+
+/* Topic colour tokens (applied per card via data-topic) */
+.q-card[data-topic="inheritance"]    { --c-accent: var(--c-teal-light); --c-accent-soft: rgba(37,181,171,.10); }
+.q-card[data-topic="twins"]          { --c-accent: var(--c-violet);     --c-accent-soft: rgba(111,97,232,.10); }
+.q-card[data-topic="ancestry"]       { --c-accent: var(--c-amber);      --c-accent-soft: rgba(182,107,22,.10); }
+.q-card[data-topic="results"]        { --c-accent: var(--c-rust);       --c-accent-soft: rgba(199,104,66,.10); }
+.q-card[data-topic="risk"]           { --c-accent: var(--c-rose);       --c-accent-soft: rgba(199,60,112,.10); }
+.q-card[data-topic="wild"]           { --c-accent: var(--c-forest);     --c-accent-soft: rgba(47,140,92,.10); }
+.q-card[data-topic="pregnancy"]      { --c-accent: var(--c-rose);       --c-accent-soft: rgba(199,60,112,.10); }
+.q-card[data-topic="surprises"]      { --c-accent: var(--c-violet);     --c-accent-soft: rgba(111,97,232,.10); }
+.q-card[data-topic="pop"]            { --c-accent: var(--c-rust);       --c-accent-soft: rgba(199,104,66,.10); }
+.q-card[data-topic="ethics"]         { --c-accent: var(--ink-2);        --c-accent-soft: rgba(45,42,36,.08); }
+
+/* Question header */
+.q-card__head{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.q-card__topic{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 9px;
+  border-radius: 999px;
+  background: var(--c-accent-soft);
+  color: var(--c-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.q-card__topic-dot{
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-accent);
+}
+.q-card__meta{
+  font-size: 12.5px;
+  color: var(--ink-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.q-card__meta b{ color: var(--ink-2); font-weight: 600; }
+.q-card__meta-sep{
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--ink-4);
+}
+
+.q-card__title{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: clamp(22px, 1.9vw, 28px);
+  line-height: 1.18;
+  letter-spacing: -.022em;
+  color: var(--ink-1);
+  margin-bottom: 22px;
+}
+.q-card__title a:hover{ color: var(--c-teal); }
+
+/* ===== Answer block ===== */
+.a-block{
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 18px;
+  padding-top: 22px;
+  border-top: 1px solid var(--ink-line);
+}
+.a-block:first-of-type{ border-top: 0; padding-top: 0; }
+
+/* Vote column */
+.a-vote{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 2px;
+}
+.a-vote__btn{
+  width: 36px; height: 32px;
+  border-radius: 10px;
+  background: var(--c-cream-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-2);
+  transition: background .3s var(--e-out), color .3s var(--e-out), transform .35s var(--e-out);
+}
+.a-vote__btn:hover{
+  background: var(--c-accent, var(--c-teal-light));
+  color: #fff;
+  transform: translateY(-1px);
+}
+.a-vote__btn svg{ width: 14px; height: 14px; stroke-width: 2.2; }
+.a-vote__count{
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-1);
+  letter-spacing: -.01em;
+}
+.a-vote__count small{
+  display: block;
+  font-family: var(--ff);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-top: 2px;
+}
+
+/* Persona row */
+.a-body{ min-width: 0; }
+.persona{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.persona__avatar{
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #fff;
+  letter-spacing: -.01em;
+  flex-shrink: 0;
+  position: relative;
+}
+.persona__avatar::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,.18));
+}
+/* Persona theme colors */
+.persona[data-p="priya"]   .persona__avatar{ background: linear-gradient(135deg, #2F8C5C, #1F6B43); }
+.persona[data-p="arjun"]   .persona__avatar{ background: linear-gradient(135deg, #6F61E8, #4E40C2); }
+.persona[data-p="sunita"]  .persona__avatar{ background: linear-gradient(135deg, #C76842, #9C4A2C); }
+.persona[data-p="ravi"]    .persona__avatar{ background: linear-gradient(135deg, #15605D, #0E4D4B); }
+.persona[data-p="maya"]    .persona__avatar{ background: linear-gradient(135deg, #B66B16, #8B4F0E); }
+.persona[data-p="kabir"]   .persona__avatar{ background: linear-gradient(135deg, #C73C70, #9A2855); }
+
+.persona__info{ display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.persona__name{
+  font-family: var(--ff);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--ink-1);
+  letter-spacing: -.005em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.persona__verified{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--c-teal-light);
+  color: #fff;
+  flex-shrink: 0;
+}
+.persona__verified svg{ width: 9px; height: 9px; stroke-width: 3; }
+.persona__title{
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+.a-text{
+  font-family: var(--ff-serif);
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  letter-spacing: -.003em;
+}
+.a-text p{ margin-bottom: 14px; }
+.a-text p:last-child{ margin-bottom: 0; }
+.a-text em{ font-style: italic; }
+.a-text strong{ font-weight: 600; color: var(--ink-1); }
+.a-text--clamp{
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+}
+.a-text--clamp::after{
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 56px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,.96) 80%);
+  pointer-events: none;
+}
+.q-card:hover .a-text--clamp::after{
+  background: linear-gradient(180deg, transparent, #fff 80%);
+}
+
+/* Answer footer */
+.a-foot{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.a-foot__action{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-3);
+  font-weight: 500;
+  transition: color .3s var(--e-out);
+}
+.a-foot__action:hover{ color: var(--ink-1); }
+.a-foot__action svg{ width: 13px; height: 13px; stroke-width: 1.8; }
+
+/* Read full answers CTA */
+.q-card__more{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--ink-line);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.q-card__more-link{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--c-accent, var(--c-teal));
+  font-weight: 600;
+  font-size: 13.5px;
+  transition: gap .3s var(--e-out);
+}
+.q-card__more-link:hover{ gap: 12px; }
+.q-card__more-link svg{ width: 13px; height: 13px; stroke-width: 2; }
+.q-card__answers-pip{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.q-card__answers-pip-stack{
+  display: inline-flex;
+  align-items: center;
+}
+.q-card__answers-pip-dot{
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--c-cream);
+  margin-left: -6px;
+}
+.q-card__answers-pip-dot:first-child{ margin-left: 0; }
+
+/* ============================================================
+   INLINE FEED CARDS (newsletter, "how this works", trending)
+   ============================================================ */
+
+/* Newsletter card */
+.inline-card{
+  background: linear-gradient(150deg, var(--c-teal) 0%, var(--c-teal-2) 60%, #0a3a38 100%);
+  color: var(--c-cream);
+  border-radius: var(--r-lg);
+  padding: clamp(28px, 3vw, 44px);
+  position: relative;
+  overflow: hidden;
+}
+.inline-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 100% 0%, rgba(37,181,171,.32), transparent 60%),
+    radial-gradient(60% 60% at 0% 100%, rgba(248,228,204,.10), transparent 60%);
+  pointer-events: none;
+}
+.inline-card__inner{ position: relative; z-index: 1; }
+.inline-card__eyebrow{
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--ff);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--c-peach-2);
+  margin-bottom: 14px;
+}
+.inline-card__eyebrow::before{
+  content: "";
+  width: 24px; height: 2px;
+  background: var(--c-peach-2);
+  border-radius: 2px;
+}
+.inline-card__title{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.15;
+  letter-spacing: -.024em;
+  color: var(--c-cream);
+  margin-bottom: 12px;
+}
+.inline-card__sub{
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(250,246,239,.78);
+  margin-bottom: 24px;
+  max-width: 540px;
+}
+.inline-card__form{
+  display: flex;
+  gap: 10px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  padding: 5px;
+  max-width: 480px;
+  backdrop-filter: blur(8px);
+}
+.inline-card__form input{
+  flex: 1;
+  border: 0;
+  background: none;
+  outline: none;
+  color: #fff;
+  padding: 10px 18px;
+  font-size: 14.5px;
+}
+.inline-card__form input::placeholder{ color: rgba(250,246,239,.55); }
+.inline-card__form button{
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: var(--c-peach-2);
+  color: var(--ink-1);
+  font-weight: 600;
+  font-size: 13.5px;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: background .35s var(--e-out), transform .35s var(--e-out);
+  flex-shrink: 0;
+}
+.inline-card__form button:hover{
+  background: var(--c-cream);
+  transform: translateY(-1px);
+}
+
+/* "How this works" card */
+.rules-card{
+  background: rgba(255,255,255,.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--ink-line);
+  border-radius: var(--r-lg);
+  padding: clamp(28px, 3vw, 40px);
+}
+.rules-card__head{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.rules-card__ico{
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--c-peach), var(--c-peach-2));
+  color: var(--c-teal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rules-card__ico svg{ width: 22px; height: 22px; stroke-width: 1.8; }
+.rules-card__title{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: -.022em;
+  color: var(--ink-1);
+}
+.rules-list{ display: flex; flex-direction: column; gap: 18px; }
+.rule{
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+.rule__num{
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--c-cream-2);
+  border: 1px solid var(--ink-line-2);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-1);
+}
+.rule__text{
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  padding-top: 7px;
+}
+.rule__text b{ font-weight: 600; color: var(--ink-1); }
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.aside-card{
+  background: rgba(255,255,255,.72);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--ink-line);
+  border-radius: var(--r-lg);
+  padding: 24px 22px;
+}
+.aside-card__head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--ink-line);
+}
+.aside-card__title{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -.018em;
+  color: var(--ink-1);
+}
+.aside-card__count{
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+/* Trending list */
+.trending-list{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.trending-item{
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+  cursor: pointer;
+  transition: transform .35s var(--e-out);
+}
+.trending-item:hover{ transform: translateX(2px); }
+.trending-item__num{
+  font-family: var(--ff-mono);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink-line-2);
+  line-height: 1;
+  padding-top: 2px;
+}
+.trending-item:hover .trending-item__num{ color: var(--c-teal-light); }
+.trending-item__body{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.trending-item__q{
+  font-family: var(--ff-serif);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.34;
+  letter-spacing: -.014em;
+  color: var(--ink-1);
+}
+.trending-item__meta{
+  font-size: 12px;
+  color: var(--ink-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.trending-item__meta-dot{
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--ink-4);
+}
+
+/* Contributors card */
+.contrib-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.contrib{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 14px 10px;
+  border-radius: var(--r-sm);
+  background: rgba(250,246,239,.5);
+  border: 1px solid var(--ink-line);
+  transition: transform .35s var(--e-out), background .3s var(--e-out);
+}
+.contrib:hover{ transform: translateY(-2px); background: #fff; }
+.contrib__avatar{
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  position: relative;
+}
+.contrib__avatar::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,.18));
+}
+.contrib[data-p="priya"]  .contrib__avatar{ background: linear-gradient(135deg, #2F8C5C, #1F6B43); }
+.contrib[data-p="arjun"]  .contrib__avatar{ background: linear-gradient(135deg, #6F61E8, #4E40C2); }
+.contrib[data-p="sunita"] .contrib__avatar{ background: linear-gradient(135deg, #C76842, #9C4A2C); }
+.contrib[data-p="ravi"]   .contrib__avatar{ background: linear-gradient(135deg, #15605D, #0E4D4B); }
+.contrib[data-p="maya"]   .contrib__avatar{ background: linear-gradient(135deg, #B66B16, #8B4F0E); }
+.contrib[data-p="kabir"]  .contrib__avatar{ background: linear-gradient(135deg, #C73C70, #9A2855); }
+
+.contrib__name{
+  font-family: var(--ff);
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--ink-1);
+  line-height: 1.25;
+  letter-spacing: -.005em;
+}
+.contrib__role{
+  font-size: 10.5px;
+  color: var(--ink-3);
+  line-height: 1.3;
+}
+
+/* Quick info card */
+.info-card{
+  background: var(--c-teal);
+  color: var(--c-cream);
+  border-radius: var(--r-lg);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.info-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 60% at 110% 0%, rgba(37,181,171,.32), transparent 60%);
+  pointer-events: none;
+}
+.info-card__inner{ position: relative; z-index: 1; }
+.info-card__ico{
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(248,228,204,.18);
+  color: var(--c-peach-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.info-card__ico svg{ width: 18px; height: 18px; }
+.info-card__title{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -.02em;
+  color: var(--c-cream);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.info-card__text{
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(250,246,239,.78);
+}
+
+/* ============================================================
+   LOAD MORE
+   ============================================================ */
+.load-more{
+  text-align: center;
+  margin-top: 40px;
+}
+.load-more button{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.7);
+  border: 1.5px solid var(--ink-line);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-1);
+  transition: transform .4s var(--e-out),
+              background .3s var(--e-out),
+              border-color .3s var(--e-out),
+              box-shadow .4s var(--e-out);
+  backdrop-filter: blur(8px);
+}
+.load-more button:hover{
+  transform: translateY(-2px);
+  background: #fff;
+  border-color: var(--ink-line-2);
+  box-shadow: var(--sh-2);
+}
+.load-more button svg{ width: 14px; height: 14px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  background: #1A2220;
+  color: rgba(250,246,239,.7);
+  padding: 72px 0 32px;
+  position: relative;
+  overflow: hidden;
+}
+.footer::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(50% 60% at 90% 0%, rgba(37,181,171,.12), transparent 60%);
+}
+.footer__inner{ position: relative; z-index: 1; }
+.footer__top{
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.footer__brand-block{ max-width: 360px; }
+.footer__brand-row{
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.footer__brand-row .nav__brand-w{
+  color: var(--c-cream);
+}
+.footer__brand-row .nav__brand-w small{
+  color: rgba(250,246,239,.5);
+}
+.footer__mission{
+  font-family: var(--ff-serif);
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(250,246,239,.7);
+  font-weight: 400;
+}
+.footer__col-title{
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--c-peach-2);
+  margin-bottom: 18px;
+}
+.footer__list{ display: flex; flex-direction: column; gap: 11px; }
+.footer__list a{
+  font-size: 14px;
+  color: rgba(250,246,239,.72);
+  transition: color .3s var(--e-out);
+}
+.footer__list a:hover{ color: var(--c-teal-light); }
+
+.footer__bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: rgba(250,246,239,.55);
+}
+.footer__brandline{
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  color: rgba(250,246,239,.8);
+  letter-spacing: -.005em;
+}
+.footer__brandline span{ color: var(--c-peach-2); margin: 0 4px; }
+.footer__socials{ display: inline-flex; gap: 18px; }
+.footer__socials a{ color: rgba(250,246,239,.55); transition: color .3s var(--e-out); }
+.footer__socials a:hover{ color: var(--c-cream); }
+.footer__socials svg{ width: 18px; height: 18px; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px){
+  .feed__layout{
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .feed__aside{
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .feed__aside > *{
+    flex: 1;
+    min-width: 280px;
+  }
+  .footer__top{
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+  .footer__brand-block{ grid-column: 1 / -1; max-width: 100%; }
+}
+
+@media (max-width: 880px){
+  :root{ --gutter: 24px; }
+  .nav__search{ display: none; }
+  .nav__inner{ height: 64px; }
+  .nav__brand-w small{ display: none; }
+
+  .hero__trust{
+    flex-direction: column;
+    gap: 10px;
+    border-radius: var(--r-lg);
+    padding: 18px 22px;
+  }
+  .hero__trust-sep{ display: none; }
+
+  .feed-head{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .a-block{
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .a-vote__btn{ width: 32px; height: 28px; }
+  .a-vote__count{ font-size: 12px; }
+
+  .footer__top{
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 640px){
+  .hero{ padding: 40px 0 32px; }
+  .hero__cta{ flex-direction: column; align-items: stretch; width: 100%; }
+  .hero__cta .btn{ width: 100%; }
+  .hero__eyebrow{
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: var(--r-md);
+    text-align: center;
+  }
+
+  .chip{ font-size: 12.5px; padding: 8px 13px; }
+
+  .q-card{ padding: 20px; }
+  .q-card__title{ font-size: 20px; }
+  .a-block{
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .a-vote{
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+  }
+  .a-vote__btn{ width: 30px; height: 28px; }
+  .a-vote__count{ display: inline-flex; align-items: baseline; gap: 8px; }
+  .a-vote__count small{ display: inline; margin: 0; }
+
+  .inline-card__form{
+    flex-direction: column;
+    background: none;
+    border: 0;
+    padding: 0;
+    gap: 10px;
+  }
+  .inline-card__form input{
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 999px;
+    padding: 13px 20px;
+  }
+  .inline-card__form button{ padding: 13px 24px; justify-content: center; }
+
+  .footer__top{
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .footer__bottom{ flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 420px){
+  :root{ --gutter: 18px; }
+  .nav__cta .btn--primary{ padding: 10px 16px; font-size: 13px; }
+  .hero__h{ font-size: clamp(34px, 10vw, 48px); }
+  .q-card__title{ font-size: 19px; }
+  .feed-head__title{ font-size: 26px; }
+}
+
+/* Safety */
+html, body{ max-width: 100%; overflow-x: hidden; }
+img, svg, video{ max-width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="#" class="nav__brand">
+      <span class="nav__mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 20c0-2 5-3 5-8s-5-6-5-8"/>
+          <path d="M17 4c0 2-5 3-5 8s5 6 5 8"/>
+          <path d="M8 8h8M8 16h8"/>
+        </svg>
+      </span>
+      <span class="nav__brand-w">
+        <span>MapMyGenomics</span>
+        <small>A KYG community</small>
+      </span>
+    </a>
+
+    <label class="nav__search">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="9" r="6"/><path d="m14 14 4 4"/>
+      </svg>
+      <input type="text" placeholder="Search 4,200+ questions…" aria-label="Search questions">
+      <span class="nav__search-key">⌘ K</span>
+    </label>
+
+    <div class="nav__cta">
+      <a href="https://knowyourgenes.com" class="btn btn--primary">
+        Visit KnowYourGenes
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <div class="hero__eyebrow reveal">
+        <span class="hero__eyebrow-pill">
+          <span class="hero__eyebrow-dot"></span>
+          Ask · Read · Wonder
+        </span>
+        <span>Genetics, the way you actually wonder about it</span>
+      </div>
+
+      <h1 class="hero__h reveal" style="--rd:.05s;">
+        The genetics questions you<br>
+        actually wonder about,<br>
+        answered by people who <em><span class="grad-text">actually know.</span></em>
+      </h1>
+
+      <p class="hero__sub reveal" style="--rd:.1s;">
+        From "why is my brother taller than me" to "what does it mean if my polygenic score is in the 90th percentile", a growing library of questions, answered by researchers, clinicians, genetic counsellors, and curious people who have done the reading.
+      </p>
+
+      <div class="hero__cta reveal" style="--rd:.15s;">
+        <a href="#feed" class="btn btn--primary">
+          Browse questions
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn btn--ghost">
+          Ask your own
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        </a>
+      </div>
+
+      <div class="hero__trust reveal" style="--rd:.2s;">
+        <span class="hero__trust-item"><b>4,200+</b> questions answered</span>
+        <span class="hero__trust-sep"></span>
+        <span class="hero__trust-item"><b>280</b> contributors</span>
+        <span class="hero__trust-sep"></span>
+        <span class="hero__trust-item">Reviewed by certified counsellors</span>
+        <span class="hero__trust-sep"></span>
+        <span class="hero__trust-item">Free, always</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TOPIC CHIPS
+     ============================================================ -->
+<section class="chips-section">
+  <div class="container">
+    <div class="chips reveal">
+      <button class="chip is-active" type="button">All topics</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-teal-light);"><span class="chip__dot"></span>Inheritance</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-amber);"><span class="chip__dot"></span>Ancestry</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-rust);"><span class="chip__dot"></span>Genetic testing</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-rose);"><span class="chip__dot"></span>Disease risk</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-violet);"><span class="chip__dot"></span>Twins</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-violet);"><span class="chip__dot"></span>Genealogy surprises</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-rust);"><span class="chip__dot"></span>Got my results</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-rust);"><span class="chip__dot"></span>Pop culture &amp; science</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-rose);"><span class="chip__dot"></span>Pregnancy &amp; children</button>
+      <button class="chip" type="button" style="--c-accent: var(--ink-2);"><span class="chip__dot"></span>Ethics</button>
+      <button class="chip" type="button" style="--c-accent: var(--c-forest);"><span class="chip__dot"></span>Wild science</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEED
+     ============================================================ -->
+<section class="feed" id="feed">
+  <div class="container">
+    <div class="feed__layout">
+
+      <!-- ===================== MAIN COLUMN ===================== -->
+      <div class="feed__main">
+        <div class="feed-head reveal">
+          <div class="feed-head__left">
+            <span class="eyebrow">The Feed</span>
+            <h2 class="feed-head__title">Questions <em style="font-style:italic;">people are asking</em></h2>
+            <p class="feed-head__sub">A growing library. Curated by usefulness, not by upvote count alone.</p>
+          </div>
+          <button class="feed-head__sort">
+            Sort: Most helpful
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="q-list">
+
+          <!-- Q1 — INHERITANCE -->
+          <article class="q-card reveal" data-topic="inheritance">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Inheritance</span>
+              <span class="q-card__meta">Asked by <b>Ananya R.</b><span class="q-card__meta-sep"></span>3.4k views<span class="q-card__meta-sep"></span>2 days ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">If I share 50% DNA with both my parents, why do I look so much more like one of them?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">847<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="arjun">
+                  <div class="persona__avatar">AM</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Arjun Mehta
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">PhD candidate in population genetics, IISc</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>This is more interesting than it sounds. Let me explain why.</p>
+                  <p>Yes, you got 50% of your DNA from each parent. But "look like" is determined by a small subset of your DNA, maybe a few hundred variants that influence visible facial features, skin tone, hair, eye shape. Which half of each parent's DNA you got is random, and the random draw might have given you most of the appearance-relevant variants from one side.</p>
+                  <p>So you can be 50/50 by total DNA and 80/20 by visible-trait DNA. That's not a contradiction. It's exactly what the maths predicts will happen sometimes.</p>
+                </div>
+                <div class="a-foot">
+                  <a href="#" class="a-foot__action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>3 comments</a>
+                  <a href="#" class="a-foot__action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Share</a>
+                  <a href="#" class="a-foot__action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Save</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">412<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="priya">
+                  <div class="persona__avatar">PI</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Dr. Priya Iyer
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Genetic counsellor · 11 years</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Great question, this comes up a lot when families bring babies in.</p>
+                  <p>To add to Arjun's answer: people sometimes notice that a child looks like one parent for a few years and then "switches" to looking like the other parent. This is also real. The genes for facial structure express themselves at different rates as the face grows. Toddler features are dominated by certain variants, adolescent features by others, and adult features by yet others.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #6F61E8, #4E40C2);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #2F8C5C, #1F6B43);"></span>
+                </span>
+                2 answers · 8 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- Q2 — TWINS -->
+          <article class="q-card reveal" data-topic="twins">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Twins</span>
+              <span class="q-card__meta">Asked by <b>Rohan P.</b><span class="q-card__meta-sep"></span>5.1k views<span class="q-card__meta-sep"></span>4 days ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">Why do identical twins sometimes have noticeably different personalities?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">1.2k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="maya">
+                  <div class="persona__avatar">MS</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Maya Subramaniam
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Science journalist</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>The short answer: identical genes don't mean identical lives, and personality is shaped by both.</p>
+                  <p>Twin studies have been the workhorse of behavioural genetics for decades. The consensus from large studies (the Minnesota Twin Family Study is the most-cited): personality traits are roughly 40 to 60% heritable. The remaining 40 to 60% is environmental. Here is the crucial bit: most of that environmental variation is "non-shared" environment, not "shared" environment.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">508<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="kabir">
+                  <div class="persona__avatar">KA</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Kabir Ahmed</div>
+                    <div class="persona__title">Bioinformatics engineer</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Quick reality check on the genes-aren't-everything point: identical twins also aren't quite genetically identical at the cellular level.</p>
+                  <p>Mutations happen during cell division. By the time twins are adults, each has accumulated hundreds of somatic mutations that the other doesn't carry. These are usually trivial, but they add up. And gene expression (which genes are turned on or off in which cells) diverges significantly through life because of epigenetic changes driven by diet, stress, illness, environment.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #B66B16, #8B4F0E);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #C73C70, #9A2855);"></span>
+                </span>
+                2 answers · 14 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- ===== HOW THIS WORKS — interstitial card ===== -->
+          <div class="rules-card reveal">
+            <div class="rules-card__head">
+              <span class="rules-card__ico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z"/><path d="M9 11l3 3L22 4"/></svg>
+              </span>
+              <h3 class="rules-card__title">How this works · <em style="font-style:italic; color:var(--ink-3); font-weight:400;">three rules</em></h3>
+            </div>
+            <div class="rules-list">
+              <div class="rule">
+                <div class="rule__num">01</div>
+                <div class="rule__text"><b>Anyone can ask.</b> We curate which questions to surface to the homepage based on how useful the answer is likely to be to other readers.</div>
+              </div>
+              <div class="rule">
+                <div class="rule__num">02</div>
+                <div class="rule__text"><b>Anyone can answer.</b> We verify contributor credentials when they claim a professional title.</div>
+              </div>
+              <div class="rule">
+                <div class="rule__num">03</div>
+                <div class="rule__text"><b>We don't sell anything.</b> No products, no tests, no affiliate links. The site exists because the questions are interesting.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q3 — GOT MY RESULTS -->
+          <article class="q-card reveal" data-topic="results">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Got my results</span>
+              <span class="q-card__meta">Asked by <b>Priyanka G.</b><span class="q-card__meta-sep"></span>2.8k views<span class="q-card__meta-sep"></span>6 days ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">I just got my DNA test back and it says I'm 8% Italian. None of my known ancestors are Italian. What's going on?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">923<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="sunita">
+                  <div class="persona__avatar">SR</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Sunita Rao</div>
+                    <div class="persona__title">Genealogy hobbyist · 18 tests taken</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Welcome to the club. This happens to a lot of us.</p>
+                  <p>A few possibilities, in rough order of likelihood:</p>
+                  <p>One: the test is wrong in the most boring way. Ancestry estimates have wide confidence intervals, and an "8% Italian" result might be saying "we found a pattern that could be Italian, or could be some other Southern European population, with moderate confidence." Look at the underlying confidence range if the company shows it.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">445<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="arjun">
+                  <div class="persona__avatar">AM</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Arjun Mehta
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">PhD candidate, population genetics</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Sunita's answer is solid. Adding one more point.</p>
+                  <p>Reference populations are built from people who self-identify as having ancestry from a specific region for several generations. But "Italian" is a relatively recent national identity. For most of European history, what's now Italy was a collection of city-states, kingdoms, and shifting populations with significant gene flow from North Africa, the Middle East, the Balkans, and Northern Europe.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #C76842, #9C4A2C);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #6F61E8, #4E40C2);"></span>
+                </span>
+                2 answers · 11 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- Q4 — DISEASE RISK / HUNTINGTON -->
+          <article class="q-card reveal" data-topic="risk">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Disease risk</span>
+              <span class="q-card__meta">Asked by <b>Anonymous</b><span class="q-card__meta-sep"></span>8.7k views<span class="q-card__meta-sep"></span>1 week ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">My grandfather had Huntington's. What's the chance I get it?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">1.8k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="priya">
+                  <div class="persona__avatar">PI</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Dr. Priya Iyer
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Genetic counsellor · 11 years</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>I'm sorry you're carrying this question. Let me give you the math, then the harder part.</p>
+                  <p>Huntington's disease is autosomal dominant, which means a person with the affected gene variant has the condition. It is not skipped. If your grandfather had Huntington's, the genetics work like this: he had one copy of the affected gene. Each of his children (including your parent) had a 50% chance of inheriting that copy.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">612<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="ravi">
+                  <div class="persona__avatar">RK</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Dr. Ravi Krishnan
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Practising oncologist</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>I'm not a Huntington's specialist, but I want to add one practical note.</p>
+                  <p>The decision of whether to test for a late-onset, currently incurable condition is one of the most personally weighty calls in clinical genetics. People choose differently. Some want to know so they can plan, have children before symptoms appear, or use IVF with embryo screening to avoid passing it on. Others choose not to know because the uncertainty is more bearable than a confirmed positive.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #2F8C5C, #1F6B43);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #15605D, #0E4D4B);"></span>
+                </span>
+                2 answers · 24 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- ===== NEWSLETTER — interstitial ===== -->
+          <div class="inline-card reveal">
+            <div class="inline-card__inner">
+              <div class="inline-card__eyebrow">Newsletter · Every Sunday</div>
+              <h3 class="inline-card__title">The five best answers of the week.</h3>
+              <p class="inline-card__sub">A weekly digest of the most interesting genetics questions our community answered. Curated, not algorithm-picked.</p>
+              <form class="inline-card__form" onsubmit="event.preventDefault();">
+                <input type="email" placeholder="your@email.com" aria-label="Email address">
+                <button type="submit">Subscribe <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Q5 — ANCESTRY / NEANDERTHAL -->
+          <article class="q-card reveal" data-topic="ancestry">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Ancestry</span>
+              <span class="q-card__meta">Asked by <b>Vikram J.</b><span class="q-card__meta-sep"></span>4.2k views<span class="q-card__meta-sep"></span>2 weeks ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">How can my DNA test say 'less than 1% Neanderthal' if Neanderthals went extinct 40,000 years ago?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">1.1k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="maya">
+                  <div class="persona__avatar">MS</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Maya Subramaniam
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Science journalist</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Because Neanderthals didn't fully go extinct. They interbred with modern humans, and a small percentage of their DNA is still walking around inside everyone of non-African descent.</p>
+                  <p>When anatomically modern Homo sapiens migrated out of Africa starting around 60,000 years ago, they encountered Neanderthals in the Middle East and Europe. The two groups interbred enough that today, every person of European, Asian, or Indigenous American descent carries between 1% and 4% Neanderthal DNA.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">527<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="arjun">
+                  <div class="persona__avatar">AM</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Arjun Mehta
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">PhD candidate, population genetics</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Adding a fun fact: Denisovan DNA is the other half of this story.</p>
+                  <p>Denisovans are an extinct human cousin we only learned about in 2010, from a finger bone found in a Siberian cave. They also interbred with modern humans. People of East Asian and Melanesian descent carry small amounts of Denisovan DNA, up to 5% in some Papuan populations.</p>
+                  <p>We have learned almost everything we know about Denisovans from their DNA inside us. There are still no confirmed Denisovan skeletons beyond a handful of bone fragments. They are, in a real sense, ghosts who are mostly visible through their descendants.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #B66B16, #8B4F0E);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #6F61E8, #4E40C2);"></span>
+                </span>
+                2 answers · 19 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- Q6 — DEPRESSION / RISK -->
+          <article class="q-card reveal" data-topic="risk">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Disease risk</span>
+              <span class="q-card__meta">Asked by <b>Anonymous</b><span class="q-card__meta-sep"></span>9.3k views<span class="q-card__meta-sep"></span>3 days ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">Is depression genetic?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">1.6k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="priya">
+                  <div class="persona__avatar">PI</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Dr. Priya Iyer
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Genetic counsellor · 11 years</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Partially, yes. But "genetic" is doing a lot of work in that question. Let me unpack it.</p>
+                  <p>Heritability estimates for major depressive disorder cluster around 35 to 40% based on twin studies. That means roughly 35-40% of the variation in who develops depression versus who doesn't is explained by genetic variation in the population. The remaining 60-65% is environmental: trauma, stress, sleep, social context, medical conditions, life events.</p>
+                  <p>What "genetic" doesn't mean here: there is no "depression gene." Hundreds, possibly thousands, of variants each contribute a small amount to risk.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">734<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="maya">
+                  <div class="persona__avatar">MS</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Maya Subramaniam
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Science journalist</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>One more useful piece of context.</p>
+                  <p>The hunt for "depression genes" had a famously rough decade. Several candidate genes that early studies identified (particularly 5-HTTLPR, the serotonin transporter variant) failed to replicate in larger studies. The field has shifted from looking for individual genes to looking at the cumulative effect of thousands of small-effect variants, which is what polygenic risk scores try to capture.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #2F8C5C, #1F6B43);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #B66B16, #8B4F0E);"></span>
+                </span>
+                2 answers · 42 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- Q7 — WILD SCIENCE / DOG -->
+          <article class="q-card reveal" data-topic="wild">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Wild science</span>
+              <span class="q-card__meta">Asked by <b>Tanvi L.</b><span class="q-card__meta-sep"></span>3.6k views<span class="q-card__meta-sep"></span>5 days ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">Can my dog be more genetically diverse than I am?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">1.4k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="arjun">
+                  <div class="persona__avatar">AM</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Arjun Mehta
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">PhD candidate, population genetics</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>If your dog is a mutt, almost certainly yes. If your dog is a purebred, almost certainly no.</p>
+                  <p>Modern dog breeds were created mostly in the 19th and 20th centuries by selecting for a small set of physical traits and aggressively inbreeding to fix them. Many breeds today trace back to fewer than a dozen founder dogs. The genetic diversity within a single breed (say, Cavalier King Charles Spaniels, or German Shepherds) is brutally low. Some breeds carry inbreeding coefficients equivalent to first-cousin marriages, in every individual.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #6F61E8, #4E40C2);"></span>
+                </span>
+                1 answer · 22 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- Q8 — NPE / SURPRISES -->
+          <article class="q-card reveal" data-topic="surprises">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Genealogy surprises</span>
+              <span class="q-card__meta">Asked by <b>Anonymous</b><span class="q-card__meta-sep"></span>12.1k views<span class="q-card__meta-sep"></span>4 days ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">What do I do if my DNA test reveals my dad isn't my biological father?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">2.1k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="sunita">
+                  <div class="persona__avatar">SR</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Sunita Rao</div>
+                    <div class="persona__title">Genealogy hobbyist · has seen this in community</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>First: I'm sorry. This is one of the heaviest discoveries that comes out of consumer DNA testing, and you are not alone. There is a name for what happens when people find out this way (NPE, "Not Parent Expected"), and there are large support communities online specifically for people in your situation.</p>
+                  <p>Practical, in this order:</p>
+                  <p>One: confirm. Sometimes the algorithm gets it wrong, especially for distant relative matches. Two: don't act fast. Three: find your people. Four: therapy is genuinely useful here.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">1.1k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="priya">
+                  <div class="persona__avatar">PI</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Dr. Priya Iyer
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">Genetic counsellor</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Echoing Sunita's advice. The single most important thing in the first week: do nothing irreversible.</p>
+                  <p>I have worked with families on this. The discoveries are real, the feelings are real, but the people involved (your parents, your siblings, your possible biological father, his possible other family) are real too. A few quiet weeks of processing before any conversation tends to lead to better outcomes for everyone, including you.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #C76842, #9C4A2C);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #2F8C5C, #1F6B43);"></span>
+                </span>
+                2 answers · 87 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+          <!-- Q9 — ARYAN / DRAVIDIAN -->
+          <article class="q-card reveal" data-topic="ancestry">
+            <div class="q-card__head">
+              <span class="q-card__topic"><span class="q-card__topic-dot"></span>Ancestry</span>
+              <span class="q-card__meta">Asked by <b>Anonymous</b><span class="q-card__meta-sep"></span>11.4k views<span class="q-card__meta-sep"></span>5 days ago</span>
+            </div>
+            <h3 class="q-card__title"><a href="#">Are 'Aryan' and 'Dravidian' real genetic categories or colonial inventions?</a></h3>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">2.3k<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="arjun">
+                  <div class="persona__avatar">AM</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Arjun Mehta
+                      <span class="persona__verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg></span>
+                    </div>
+                    <div class="persona__title">PhD candidate, population genetics</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Both, sort of. The terms are colonial categories that don't map cleanly to biology, but they roughly correspond to real ancestral components that population genetics has identified in South Asians.</p>
+                  <p>Modern South Asian populations are descended from a mix of several ancestral groups. The two largest contributions, identified through extensive ancient DNA research over the last decade (David Reich's lab at Harvard has done much of this work), are usually called Ancestral North Indians (ANI) and Ancestral South Indians (ASI).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="a-block">
+              <div class="a-vote">
+                <button class="a-vote__btn" aria-label="Upvote">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 4 14h6v6h4v-6h6z"/></svg>
+                </button>
+                <div class="a-vote__count">612<small>Upvotes</small></div>
+              </div>
+              <div class="a-body">
+                <div class="persona" data-p="sunita">
+                  <div class="persona__avatar">SR</div>
+                  <div class="persona__info">
+                    <div class="persona__name">Sunita Rao</div>
+                    <div class="persona__title">Genealogy hobbyist</div>
+                  </div>
+                </div>
+                <div class="a-text a-text--clamp">
+                  <p>Arjun's answer is solid. From a non-scientist perspective: if you upload your DNA to enough services, this is one of the most striking parts of the results. Almost every Indian shows up as a continuous gradient. There is no clean "North Indian" or "South Indian" cluster in the data, more like a smooth spectrum.</p>
+                  <p>It is one of those moments when the genetic data quietly contradicts a lot of inherited categories. Worth sitting with.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="q-card__more">
+              <span class="q-card__answers-pip">
+                <span class="q-card__answers-pip-stack">
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #6F61E8, #4E40C2);"></span>
+                  <span class="q-card__answers-pip-dot" style="background: linear-gradient(135deg, #C76842, #9C4A2C);"></span>
+                </span>
+                2 answers · 156 follow-ups
+              </span>
+              <a href="#" class="q-card__more-link">Read full thread <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="load-more reveal">
+          <button type="button">
+            Load 13 more questions
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================== SIDEBAR ===================== -->
+      <aside class="feed__aside">
+
+        <!-- Trending this week -->
+        <div class="aside-card reveal">
+          <div class="aside-card__head">
+            <h4 class="aside-card__title">Trending this week</h4>
+            <span class="aside-card__count">Top 5</span>
+          </div>
+          <div class="trending-list">
+            <div class="trending-item">
+              <div class="trending-item__num">01</div>
+              <div class="trending-item__body">
+                <div class="trending-item__q">If I take a DNA test, can it incriminate a relative I've never met?</div>
+                <div class="trending-item__meta">Ethics<span class="trending-item__meta-dot"></span>7.3k views<span class="trending-item__meta-dot"></span>3 days</div>
+              </div>
+            </div>
+            <div class="trending-item">
+              <div class="trending-item__num">02</div>
+              <div class="trending-item__body">
+                <div class="trending-item__q">Is balding really inherited from the mother's side?</div>
+                <div class="trending-item__meta">Inheritance<span class="trending-item__meta-dot"></span>5.6k views<span class="trending-item__meta-dot"></span>6 days</div>
+              </div>
+            </div>
+            <div class="trending-item">
+              <div class="trending-item__num">03</div>
+              <div class="trending-item__body">
+                <div class="trending-item__q">My polygenic risk score for type 2 diabetes is in the 95th percentile. Do I need to panic?</div>
+                <div class="trending-item__meta">Got my results<span class="trending-item__meta-dot"></span>4.7k views<span class="trending-item__meta-dot"></span>4 days</div>
+              </div>
+            </div>
+            <div class="trending-item">
+              <div class="trending-item__num">04</div>
+              <div class="trending-item__body">
+                <div class="trending-item__q">Is there really a 'warrior gene' that makes people violent?</div>
+                <div class="trending-item__meta">Pop culture<span class="trending-item__meta-dot"></span>6.7k views<span class="trending-item__meta-dot"></span>1 week</div>
+              </div>
+            </div>
+            <div class="trending-item">
+              <div class="trending-item__num">05</div>
+              <div class="trending-item__body">
+                <div class="trending-item__q">Should I get tested for BRCA if no one in my family has had breast cancer?</div>
+                <div class="trending-item__meta">Disease risk<span class="trending-item__meta-dot"></span>5.8k views<span class="trending-item__meta-dot"></span>2 weeks</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contributors -->
+        <div class="aside-card reveal">
+          <div class="aside-card__head">
+            <h4 class="aside-card__title">Featured voices</h4>
+            <span class="aside-card__count">6 of 280</span>
+          </div>
+          <div class="contrib-grid">
+            <div class="contrib" data-p="priya">
+              <div class="contrib__avatar">PI</div>
+              <div class="contrib__name">Dr. Priya Iyer</div>
+              <div class="contrib__role">Genetic counsellor</div>
+            </div>
+            <div class="contrib" data-p="arjun">
+              <div class="contrib__avatar">AM</div>
+              <div class="contrib__name">Arjun Mehta</div>
+              <div class="contrib__role">PhD, pop. genetics</div>
+            </div>
+            <div class="contrib" data-p="sunita">
+              <div class="contrib__avatar">SR</div>
+              <div class="contrib__name">Sunita Rao</div>
+              <div class="contrib__role">Genealogy hobbyist</div>
+            </div>
+            <div class="contrib" data-p="ravi">
+              <div class="contrib__avatar">RK</div>
+              <div class="contrib__name">Dr. Ravi Krishnan</div>
+              <div class="contrib__role">Oncologist</div>
+            </div>
+            <div class="contrib" data-p="maya">
+              <div class="contrib__avatar">MS</div>
+              <div class="contrib__name">Maya Subramaniam</div>
+              <div class="contrib__role">Science journalist</div>
+            </div>
+            <div class="contrib" data-p="kabir">
+              <div class="contrib__avatar">KA</div>
+              <div class="contrib__name">Kabir Ahmed</div>
+              <div class="contrib__role">Bioinformatics</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info card -->
+        <div class="info-card reveal">
+          <div class="info-card__inner">
+            <div class="info-card__ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            </div>
+            <h4 class="info-card__title">A community of curiosity</h4>
+            <p class="info-card__text">A community of people who find genetics interesting and try to explain it well. Free, ad-free, curated for accuracy.</p>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__top">
+      <div class="footer__brand-block">
+        <div class="footer__brand-row">
+          <span class="nav__mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 20c0-2 5-3 5-8s-5-6-5-8"/>
+              <path d="M17 4c0 2-5 3-5 8s5 6 5 8"/>
+              <path d="M8 8h8M8 16h8"/>
+            </svg>
+          </span>
+          <span class="nav__brand-w">
+            <span style="font-family:var(--ff-serif); font-size:19px; font-weight:600;">MapMyGenomics</span>
+            <small>A KYG community</small>
+          </span>
+        </div>
+        <p class="footer__mission">A community of people who find genetics interesting and try to explain it well. Free, ad-free, curated for accuracy.</p>
+      </div>
+
+      <div class="footer__col">
+        <div class="footer__col-title">Explore</div>
+        <div class="footer__list">
+          <a href="#">All questions</a>
+          <a href="#">Topics</a>
+          <a href="#">Contributors</a>
+          <a href="#">Trending</a>
+          <a href="#">Ask a question</a>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <div class="footer__col-title">About</div>
+        <div class="footer__list">
+          <a href="#">How this works</a>
+          <a href="#">Editorial review</a>
+          <a href="#">Become a contributor</a>
+          <a href="#">Newsletter</a>
+          <a href="#">Press</a>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <div class="footer__col-title">Family</div>
+        <div class="footer__list">
+          <a href="#">KnowYourGenes</a>
+          <a href="#">MatchGenes</a>
+          <a href="#">MapMyGenetic</a>
+          <a href="#">Privacy</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__brandline">Curated <span>·</span> Reviewed <span>·</span> Free</span>
+      <span>© 2026 MapMyGenomics. Part of the KYG family.</span>
+      <div class="footer__socials">
+        <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8a8.49 8.49 0 0 1-2.36.64 4.13 4.13 0 0 0 1.81-2.27 8.21 8.21 0 0 1-2.61 1 4.1 4.1 0 0 0-7 3.74A11.64 11.64 0 0 1 3.39 4.62a4.16 4.16 0 0 0 1.26 5.46A4.1 4.1 0 0 1 2.8 9.6v.05a4.11 4.11 0 0 0 3.29 4 4.18 4.18 0 0 1-1.85.07A4.11 4.11 0 0 0 8.07 16.5a8.23 8.23 0 0 1-6.07 1.7 11.61 11.61 0 0 0 6.29 1.84A11.61 11.61 0 0 0 20 8.45v-.53A8.27 8.27 0 0 0 22 5.8z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -60px 0px', threshold: 0.05 });
+    reveals.forEach(el => io.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('is-in'));
+  }
+
+  // Nav scrolled state
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if(window.scrollY > 12){ nav.classList.add('is-scrolled'); }
+    else { nav.classList.remove('is-scrolled'); }
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Topic chip toggle
+  const chips = document.querySelectorAll('.chip');
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.classList.remove('is-active'));
+    c.classList.add('is-active');
+  }));
+
+  // Upvote click — tiny delight
+  document.querySelectorAll('.a-vote__btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const countEl = btn.parentElement.querySelector('.a-vote__count');
+      if(!countEl) return;
+      if(btn.dataset.voted === '1'){
+        btn.dataset.voted = '0';
+        btn.style.background = '';
+        btn.style.color = '';
+        const txt = countEl.firstChild;
+        if(txt) txt.nodeValue = txt.nodeValue.replace('★ ', '');
+      } else {
+        btn.dataset.voted = '1';
+        btn.style.background = 'var(--c-teal-light)';
+        btn.style.color = '#fff';
+        btn.style.transform = 'translateY(-1px)';
+        // little bump animation
+        btn.animate(
+          [{ transform: 'translateY(-1px) scale(1)' },
+           { transform: 'translateY(-4px) scale(1.08)' },
+           { transform: 'translateY(-1px) scale(1)' }],
+          { duration: 380, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+        );
+      }
+    });
+  });
+
+  // Smooth-scroll anchors
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e){
+      const id = this.getAttribute('href');
+      if(id.length > 1){
+        const target = document.querySelector(id);
+        if(target){
+          e.preventDefault();
+          const offset = 80;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
