@@ -20,6 +20,11 @@ export const metadata: Metadata = {
     "MapMyGenomics · Questions about your genes, answered by people who think about them differently",
   description:
     "A growing library of genetics questions, answered by researchers, clinicians, genetic counsellors, and curious people who have done the reading. Free, ad-free, curated for accuracy.",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
