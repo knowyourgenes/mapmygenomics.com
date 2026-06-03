@@ -53,7 +53,7 @@ export default function HowItWorksSection() {
               <h3 className="how__cta-title">Want to answer?</h3>
               <p className="how__cta-sub">
                 Drop your email and we&apos;ll verify your background. Researchers, clinicians,
-                genetic counsellors, and credentialled hobbyists are all welcome — we approve
+                genetic counsellors, and credentialled hobbyists are all welcome - we approve
                 contributors based on qualifications and a short writing sample.
               </p>
             </div>

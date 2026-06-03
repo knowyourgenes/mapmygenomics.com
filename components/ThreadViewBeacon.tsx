@@ -28,7 +28,7 @@ export default function ThreadViewBeacon({
         if (data && typeof data.count === "number") setCount(data.count);
       })
       .catch(() => {
-        // silent — view counting is best-effort
+        // silent - view counting is best-effort
       });
     return () => ctl.abort();
   }, [slug]);

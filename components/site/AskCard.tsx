@@ -13,7 +13,7 @@ export default function AskCard() {
           <div className="inline-card__eyebrow">Ask the community</div>
           <h3 className="inline-card__title">Got a genetics question on your mind?</h3>
           <p className="inline-card__sub">
-            Drop it below — our researchers, clinicians, genetic counsellors and curious readers
+            Drop it below - our researchers, clinicians, genetic counsellors and curious readers
             will take a look. The most useful questions get answered and surfaced on the homepage.
           </p>
         </div>

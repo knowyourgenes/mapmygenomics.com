@@ -4,7 +4,7 @@ import { getWriteClient } from "../../../../sanity/write-client";
 
 // One view counted per (slug, fingerprint). Fingerprint = sha256(ip + ua) so we
 // dedupe per IP+device combo even when MAC addresses are unavailable (which
-// they always are over the public web — the browser never exposes them).
+// they always are over the public web - the browser never exposes them).
 //
 // On first call from a fingerprint we atomically:
 //   1. create a `view` doc keyed by `view.<slug>.<fingerprint>`
