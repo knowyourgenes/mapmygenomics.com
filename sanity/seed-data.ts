@@ -110,9 +110,54 @@ export const topicColors: Record<string, string> = {
   "Pregnancy & children": "var(--c-rose)",
   Ethics: "var(--ink-2)",
   "Wild science": "var(--c-forest)",
+  Traits: "var(--c-teal-light)",
 };
 
 export const questions: Question[] = [
+  {
+    slug: "is-left-handedness-genetic",
+    topic: "Traits",
+    topicColor: topicColors.Traits,
+    title: "Is left-handedness genetic?",
+    askedBy: "Sneha K.",
+    viewCount: 3900,
+    postedAgo: "3 days ago",
+    answers: [
+      {
+        personaSlug: "arjun",
+        upvotes: 0,
+        body: [
+          "Partly genetic, but far less than almost everyone assumes, and that surprises people every single time.",
+          "Roughly 10% of people are left-handed, and that figure has been remarkably stable across cultures and across centuries. You would expect something that consistent to be tightly controlled by genes. It is not. Twin studies tell the story cleanly. Identical twins, who share essentially all of their DNA, are not always the same handedness. In fact, a meaningful share of identical twin pairs include one left-hander and one right-hander. If handedness were strongly genetic, that should be rare. It clearly is not, and that single fact rules out any simple \"left-hand gene\" explanation.",
+          'The current estimate is that genetics explains roughly a quarter of the variation in handedness. Dozens of gene variants each nudge the odds slightly, and many of them are involved in how the developing brain and body establish their left-right asymmetry in the first place. There is no master switch. Anyone who claims to have found "the gene for left-handedness" is overselling a small piece of a large and messy puzzle.',
+          "So what fills the other three-quarters? A combination of development before birth and a large dose of plain biological randomness in how an individual brain wires itself. Handedness appears to be partly set very early, well before a baby ever picks up a crayon, which is why it feels so fixed and so hard to override later.",
+        ],
+      },
+      {
+        personaSlug: "priya",
+        upvotes: 0,
+        body: [
+          'Adding the family-pattern piece, because that is usually what people are really asking when they ask if it is "genetic."',
+          "Two right-handed parents have about a 10% chance of having a left-handed child, the same as the population average. If one parent is left-handed, that chance rises modestly. If both parents are left-handed, it rises further, but even then it stays well under a coin flip. So handedness does cluster a little in families, just far more weakly than strongly inherited traits like eye colour or height. A left-handed child in a fully right-handed family is completely ordinary and needs no explanation.",
+          "I also want to retire an old worry that still lingers, especially among grandparents. Forcing a naturally left-handed child to write with their right hand, which was common a generation ago across much of India, has no benefit and can cause real frustration, slower writing, and unnecessary distress. Handedness is a feature of how the brain is organised, not a bad habit to be corrected. If a child reaches naturally for the left hand, let them.",
+        ],
+      },
+      {
+        personaSlug: "kabir",
+        upvotes: 0,
+        body: [
+          'One myth worth killing while we are all here: left-handedness is not linked to higher intelligence, and it is not a deficit either. Both the "left-handed genius" trope and the older "left-handed disadvantage" idea are folklore. Left-handers are slightly overrepresented in a few specific domains, and you can find impressive names on any such list, but the effects are small and easily inflated by selective storytelling, where we remember the famous left-handers and quietly ignore the famous right-handers.',
+          "For everyday purposes, your handedness predicts which hand reaches for the pen and not much else of consequence about who you are. It is one of those traits that feels like it should mean something deep, and mostly just does not.",
+          "Frequently asked:",
+          "Can you tell a baby's handedness before birth? Not reliably. Early hand preference can sometimes appear in the womb, but it is not a clean genetic prediction you can order from a test.",
+          "Why are there more right-handed people? The strong human skew toward right-handedness is ancient and not fully explained, but it likely reflects how our brains organise language and motor control.",
+          "Is mixed-handedness genetic too? Handedness sits on a spectrum, and where you land is shaped by the same mix of weak genetic influence and early brain development.",
+          "Should a left-handed child be encouraged to switch? No. There is no benefit, and switching can cause real frustration. Handedness reflects brain organisation, not a habit needing correction.",
+          "22+ questions answered · Reviewed by certified counsellors · We don't sell anything · Free, always",
+        ],
+      },
+    ],
+  },
   {
     slug: "if-i-share-50-dna-with-both-my-parents-why-do-i-look-so-much-more-like-one-of-them",
     topic: "Inheritance",
@@ -773,4 +818,5 @@ export const topics = [
   "Pregnancy & children",
   "Ethics",
   "Wild science",
+  "Traits",
 ];
