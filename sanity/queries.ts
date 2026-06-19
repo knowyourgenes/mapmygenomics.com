@@ -63,3 +63,20 @@ export const questionBySlugQuery = groq`*[_type == "question" && slug.current ==
 }`;
 
 export const questionSlugsQuery = groq`*[_type == "question" && defined(slug.current)][].slug.current`;
+
+// Projection for /llms.txt and /llms-full.txt. Keeps raw portable-text answer
+// bodies (so they can be serialized to markdown) alongside thread metadata.
+export const questionsForLlmsQuery = groq`*[_type == "question" && defined(slug.current)] | order(order asc) {
+  "slug": slug.current,
+  title,
+  askedBy,
+  postedAgo,
+  "viewCount": coalesce(viewCount, 0),
+  "topic": topic->name,
+  "answers": answers[]{
+    "personaName": persona->name,
+    "personaTitle": persona->title,
+    upvotes,
+    body
+  }
+}`;

@@ -3,6 +3,7 @@ import { isSanityConfigured } from "./env";
 import {
   questionBySlugQuery,
   questionSlugsQuery,
+  questionsForLlmsQuery,
   questionsQuery,
   topicsQuery,
   trendingQuery,
@@ -112,6 +113,31 @@ export async function getQuestionSlugs(): Promise<string[]> {
   const client = getClient();
   if (!isSanityConfigured || !client) return [];
   return (await client.fetch<string[]>(questionSlugsQuery)) ?? [];
+}
+
+// Thread with raw portable-text answer bodies, for the llms.txt routes which
+// serialize the full content to markdown.
+export type LlmsAnswer = {
+  personaName: string;
+  personaTitle: string;
+  upvotes: number;
+  body: unknown;
+};
+export type LlmsQuestion = {
+  slug: string;
+  title: string;
+  askedBy: string;
+  postedAgo: string;
+  viewCount: number;
+  topic: string;
+  answers: LlmsAnswer[];
+};
+
+export async function getQuestionsForLlms(): Promise<LlmsQuestion[]> {
+  const client = getClient();
+  if (!isSanityConfigured || !client) return [];
+  const raw = (await client.fetch<LlmsQuestion[]>(questionsForLlmsQuery)) ?? [];
+  return raw.map((q) => ({ ...q, answers: q.answers ?? [] }));
 }
 
 export async function getQuestionBySlug(slug: string): Promise<FeedQuestion | null> {
